@@ -15,16 +15,6 @@ base_dir = '/sys/bus/w1/devices/'
 device_folder = glob.glob(base_dir + '28*')[0]
 device_file = device_folder + '/w1_slave'
 
-# Change to your own account information
-to = 'trigger@applet.ifttt.com'
-gmail_user = 'ndsoccerstar55@gmail.com'
-gmail_password = 'ifffssdgjvfbhqoi'
-smtpserver = smtplib.SMTP('smtp.gmail.com', 587)
-smtpserver.ehlo()
-smtpserver.starttls()
-smtpserver.ehlo
-smtpserver.login(gmail_user, gmail_password)
-
 air_on = False
 
 def read_temp_raw():
@@ -47,6 +37,15 @@ def read_temp():
 
 def send_mail_on():
     print("Sending mail")
+    # Change to your own account information
+    to = 'trigger@applet.ifttt.com'
+    gmail_user = 'ndsoccerstar55@gmail.com'
+    gmail_password = 'ifffssdgjvfbhqoi'
+    smtpserver = smtplib.SMTP('smtp.gmail.com', 587)
+    smtpserver.ehlo()
+    smtpserver.starttls()
+    smtpserver.ehlo
+    smtpserver.login(gmail_user, gmail_password)
     mail_body = "Turning on air conditioning"
     msg = MIMEText(mail_body)
     msg['Subject'] = "#on"
@@ -59,6 +58,15 @@ def send_mail_on():
 
 def send_mail_off():
     print("Sending mail")
+    # Change to your own account information
+    to = 'trigger@applet.ifttt.com'
+    gmail_user = 'ndsoccerstar55@gmail.com'
+    gmail_password = 'ifffssdgjvfbhqoi'
+    smtpserver = smtplib.SMTP('smtp.gmail.com', 587)
+    smtpserver.ehlo()
+    smtpserver.starttls()
+    smtpserver.ehlo
+    smtpserver.login(gmail_user, gmail_password)
     mail_body = "Turning off air conditioning"
     msg = MIMEText(mail_body)
     msg['Subject'] = "#off"
