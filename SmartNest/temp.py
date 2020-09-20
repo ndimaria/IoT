@@ -85,4 +85,4 @@ while True:
     if read_temp() < 70 and air_on == True:
         print(read_temp())
         send_mail_off()     
-    time.sleep(600)
+    time.sleep(1)
