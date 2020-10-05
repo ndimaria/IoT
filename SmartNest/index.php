@@ -37,5 +37,21 @@ while ($row = mysqli_fetch_array($query)) {
 
 ?>
 </table>
+<?php    
+    if (isset($_POST['TurnOn'])) {
+      $command = escapeshellcmd('/home/pi/IoT/SmartNest/turnOn.py');
+      $output=shell_exec($command);
+      echo $output;
+    }
+    if (isset($_POST['TurnOff'])) {
+      $command = escapeshellcmd('/home/pi/IoT/SmartNest/turnOff.py');
+      $output=shell_exec($command);
+      echo $output;
+    }
+?>
+ <form method="post">
+    <button class="btn" name="TurnOn">Turn On</button>&nbsp;
+    <button class="btn" name="TurnOff">Turn Off</button><br><br>
+ </form>
 </body>
 </html>
