@@ -2,6 +2,10 @@
 <html>
 <body>
 <?php
+session_start();
+$input=$_GET['input'];
+$page = $_SERVER['PHP_SELF'];
+$sec = "10";
 
 $hostname = "localhost";
 $username = "review_site";
@@ -15,6 +19,7 @@ if ($dbconnect->connect_error) {
 }
 
 ?>
+<meta http-equiv="refresh" content="<?php echo $sec?>;URL='<?php echo $page?>'">
 <table border="1" align="center">
 <tr>
   <td>Date and Time</td>
@@ -23,35 +28,43 @@ if ($dbconnect->connect_error) {
 
 <?php
 
-$query = mysqli_query($dbconnect, "SELECT * FROM tempLog")
+$query = mysqli_query($dbconnect, "SELECT * FROM tempLog ORDER BY datetime DESC LIMIT 1")
    or die (mysqli_error($dbconnect));
 
 while ($row = mysqli_fetch_array($query)) {
+  $temperature = $row['temperature'];
   echo
    "<tr>
     <td>{$row['datetime']}</td>
     <td>{$row['temperature']}</td>
    </tr>\n";
-
+}
+echo $_SESSION["input"];
+if($_SESSION["input"] < $temperature){
+    $command = escapeshellcmd('/home/pi/IoT/SmartNest/turnOn.py');
+    $output=shell_exec($command);
+    echo "Turning on";
+    echo $output;
+}
+else{
+  if($_SESSION["input"] > $temperature)
+  {
+    $command = escapeshellcmd('/home/pi/IoT/SmartNest/turnOff.py');
+    $output=shell_exec($command);
+    echo "Turning off";
+    echo $output;
+  }
+}
+if (isset($_POST['SetTemp'])) {
+  $_SESSION["input"] = $_POST['input'];
+  echo $_SESSION["input"];
 }
 
 ?>
 </table>
-<?php    
-    if (isset($_POST['TurnOn'])) {
-      $command = escapeshellcmd('/home/pi/IoT/SmartNest/turnOn.py');
-      $output=shell_exec($command);
-      echo $output;
-    }
-    if (isset($_POST['TurnOff'])) {
-      $command = escapeshellcmd('/home/pi/IoT/SmartNest/turnOff.py');
-      $output=shell_exec($command);
-      echo $output;
-    }
-?>
  <form method="post">
-    <button class="btn" name="TurnOn">Turn On</button>&nbsp;
-    <button class="btn" name="TurnOff">Turn Off</button><br><br>
+    <input type="text" name="input" id="input">
+    <button class="btn" name="SetTemp">Set Temp</button>&nbsp;
  </form>
 </body>
 </html>
