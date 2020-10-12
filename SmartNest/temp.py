@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os
 import glob
 import time
@@ -5,6 +7,7 @@ import subprocess
 import smtplib
 import socket
 import os
+import sys
 from email.mime.text import MIMEText
 import datetime
 
@@ -15,6 +18,8 @@ base_dir = '/sys/bus/w1/devices/'
 device_folder = glob.glob(base_dir + '28*')[0]
 device_file = device_folder + '/w1_slave'
 
+coolingTemp=sys.argv[1]
+print("cooling to" + coolingTemp)
 air_on = False
 
 def read_temp_raw():
@@ -78,11 +83,11 @@ def send_mail_off():
     air_on = False
 
 while True:
-    
-    if read_temp() > 75 and air_on == False:
+    print (read_temp())
+    if read_temp() > int(coolingTemp) and air_on == False:
         print(read_temp())
         send_mail_on()
-    if read_temp() < 70 and air_on == True:
+    if read_temp() < int(coolingTemp) and air_on == True:
         print(read_temp())
         send_mail_off()     
     time.sleep(1)
