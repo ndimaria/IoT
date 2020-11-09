@@ -28,7 +28,7 @@
 	</tr>
 
 	<?php
-
+	
 	$query = mysqli_query($dbconnect, "SELECT * FROM tempLog ORDER BY datetime DESC LIMIT 1")
 	   or die (mysqli_error($dbconnect));
 
@@ -81,13 +81,13 @@
 	  $_SESSION["status"] = "TRANSITIONING";
 	  $sql="INSERT INTO info (temp, status) VALUES ('".$_SESSION["input"]."','".$_SESSION["status"]."')";
 	  if (mysqli_query($dbconnect, $sql)) {
-        echo  "<div align='center'>Changing thermostat temperature to: ".$_SESSION["input"]."<br><br></div>";
-      } else {
-        echo "<div align='center'>Error: " . $sql . "" . mysqli_error($conn)."<br><br></div>";
-      }
-      $dbconnect->close();
-	}
-
+            echo  "<div align='center'>Changing thermostat temperature to: ".$_SESSION["input"]."<br><br></div>";
+          } else {
+            echo "<div align='center'>Error: " . $sql . "" . mysqli_error($conn)."<br><br></div>";
+          }
+          $dbconnect->close();
+        }
+	
 	?>
 	
 	</table>
@@ -96,6 +96,27 @@
 		<input type="text" name="input" id="input">
 		<button class="btn" name="SetTemp">Set Temp</button>&nbsp;
 	</form>
+
+	<?php
+	require("PhpSimpleChart2.php");
+	$temps = array();
+	$dates = array();
+	$query = mysqli_query($dbconnect, "SELECT * FROM tempLog ORDER BY datetime DESC LIMIT 10")
+	   or die (mysqli_error($dbconnect));
+	while ($row = mysqli_fetch_array($query)) {
+		$temps[] = $row['temperature'];
+		$dates[] = $row['datetime'];
+
+	}
+	//$temps=array("12","14","15","16");
+	//$dates=array("2020-11-02", "2020-11-03","2020-11-04", "2020-11-05");
+	$chart_text="Temperature Logs";
+	$y_title="Temp Deg C";
+	$x_scale=1000;
+	$y_scale=400;
+
+	draw_line_chart($temps,$dates,$chart_text,$x_scale,$y_scale,$y_title);
+	?>
 	
 </body>
 </html>
