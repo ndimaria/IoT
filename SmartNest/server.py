@@ -25,7 +25,7 @@ device_folder = glob.glob(base_dir + '28*')[0]
 device_file = device_folder + '/w1_slave'
 
 # Variables for MySQL
-db = MySQLdb.connect(host="localhost", user="review_site",passwd="JxSLRkdutW", db="reviews")
+db = MySQLdb.connect(host="localhost", user="review_site",passwd="JxSLRkdutW", db="reviews", autocommit=True)
 cur = db.cursor()
 coolingTemp = 0
 air_on = "ON"
@@ -151,8 +151,10 @@ def updateDB(status):
 def getDB():
     cur.execute("SELECT * FROM info ORDER BY ID DESC LIMIT 1")
     row = cur.fetchone()
+    print(row)
     global coolingTemp
     coolingTemp = int(row[1])
+    print("in get db")
     
     global air_on
     air_on = row[2]
@@ -160,9 +162,10 @@ def getDB():
 def monitorTemp():
     while True:
        print(read_temp())
+       
+       getDB()
        print(air_on)
        print(coolingTemp)
-       getDB()
        if read_temp() > int(coolingTemp) and (air_on == "OFF" or air_on =="TRANSITIONING") :
             print(read_temp())
             send_mail_on()

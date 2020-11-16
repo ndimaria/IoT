@@ -101,13 +101,22 @@
 	require("PhpSimpleChart2.php");
 	$temps = array();
 	$dates = array();
-	$query = mysqli_query($dbconnect, "SELECT * FROM tempLog ORDER BY datetime DESC LIMIT 10")
+	$count = 0;
+	$query = mysqli_query($dbconnect, "SELECT * FROM tempLog ORDER BY datetime DESC LIMIT 360")
 	   or die (mysqli_error($dbconnect));
 	while ($row = mysqli_fetch_array($query)) {
-		$temps[] = $row['temperature'];
-		$dates[] = $row['datetime'];
-
+		if($count == 36){
+			$temps[] = $row['temperature'];
+			$dates[] = $row['datetime'];
+			$count = 0;
+		}
+		else{
+			$count = $count + 1;
+		}
 	}
+	
+	$temps = array_reverse($temps);
+	$dates = array_reverse($dates);
 	//$temps=array("12","14","15","16");
 	//$dates=array("2020-11-02", "2020-11-03","2020-11-04", "2020-11-05");
 	$chart_text="Temperature Logs";
