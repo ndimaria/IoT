@@ -7,9 +7,13 @@ In addition, I plan on creating a web application that will be able to display t
 
 ### Hardware Requirements
 * Raspberry Pi Model 3 or 4
-* DS18B20 Temperature sensor (DHT11 and DHT22 will work with some adjustment)
+* DS18B20 Temperature sensor (DHT11 and DHT22 will work with some software adjustment)
+* Smart Outlet (One used in this project is [Amazon](https://www.amazon.com/Outlet-Required-Gosund-Upgraded-Version/dp/B07GRLQV47/ref=sr_1_1_sspa?dchild=1&keywords=smart+outlet&qid=1606168791&sr=8-1-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUEySVk2QVlWQ0NBVjc1JmVuY3J5cHRlZElkPUEwNDk1MzU1OUdBVlFZWlZPTlYyJmVuY3J5cHRlZEFkSWQ9QTAyNDE3NTQzRDROM1VFRTU0S0tSJndpZGdldE5hbWU9c3BfYXRmJmFjdGlvbj1jbGlja1JlZGlyZWN0JmRvTm90TG9nQ2xpY2s9dHJ1ZQ==))
+* Breadboard
 * 3 x Jumper Cables
-
+  
+Setup the breadboard as in the following image:
+![Image of Breadboard setup](https://user-images.githubusercontent.com/49735811/100019751-99a0a900-2dac-11eb-9732-3744e1ec662b.jpg)
 ### Software Requirements 
 For my week-by-week setup see [GoogleSites](https://sites.google.com/stevens.edu/ee629/projects/diy-nest-smart-thermostat)  
   
@@ -37,8 +41,21 @@ $ sudo apt install php7.3-mysql
 * Setup MariaDB database
 ````
 sudo mysql -u root -p
-CREATE DATABASE temp_database;
-USE temp_database;
+CREATE DATABASE reviews;
+USE reviews;
 CREATE TABLE tempLog(datetime DATETIME NOT NULL, temperature FLOAT(5,2) NOT NULL);
+CREATE TABLE info(ID int AUTO_INCREMENT, temp int NOT NULL, status varchar(15) NOT NULL, PRIMARY KEY (ID)); 
 ````
-
+* Schedule Temperature Readings
+````
+crontab -e
+````
+Then add the following line: 
+````
+*/5 * * * * /home/pi/SmartNest/readTempSQL.py
+````
+To make sure that the file is executable type the following:
+````
+sudo chmod +x readTempSQL.py
+./readTempSQL.py
+````
