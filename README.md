@@ -18,7 +18,7 @@ Setup the breadboard as in the following image:
 For my week-by-week setup see [GoogleSites](https://sites.google.com/stevens.edu/ee629/projects/diy-nest-smart-thermostat)  
   
 For more general instructions see below:
-* Install MariaDB 
+#### 1. Install MariaDB 
 ````
 $ sudo apt update  
 $ sudo apt install mariadb-server mariadb-client  
@@ -26,19 +26,19 @@ $ sudo apt install python3-mysqldb
 $ sudo pip3 install -U mysqlclient  
 $ sudo mysql_secure_installation  
 ````
-* Install Apache
+#### 2. Install Apache
 ````
 $ sudo apt update
 $ sudo apt install apache2
 $ sudo service apache2 restart
 ````
-* Install PHP7.3
+#### 3. Install PHP7.3
 ````
 $ sudo apt install php7.3-mysql
 ````
 
 ### Software Setup 
-#### 1. Setup MariaDB database
+#### 4. Setup MariaDB database
 ````
 sudo mysql -u root -p
 CREATE DATABASE reviews;
@@ -48,7 +48,7 @@ CREATE TABLE info(ID int AUTO_INCREMENT, temp int NOT NULL, status varchar(15) N
 GRANT ALL ON reviews.* to review_site@localhost IDENTIFIED BY 'JxSLRkdutW';
 ````
 * This last line creates a new user called "review_site" with the "JxSLRkdutW" as the password, which is used to connect to the database in the PHP script. 
-#### 2. Schedule Temperature Readings
+#### 5. Schedule Temperature Readings
 ````
 crontab -e
 ````
@@ -61,7 +61,7 @@ crontab -e
 sudo chmod +x readTempSQL.py
 ./readTempSQL.py
 ````
-#### 3. Create IFTTT applets
+#### 6. Create IFTTT applets
 * Navigate to [IFTTT](https://ifttt.com/) and create an account if you do not have one already
 * Create a new applet
   1. Make the "if" trigger "send IFTTT email tagged" 
@@ -93,7 +93,7 @@ sudo chmod +x readTempSQL.py
   ````
   ./turnOn.py
   ````
-#### 5. Setup PHP webpage
+#### 7. Setup PHP webpage
 * Change lines 56 and 68 of `index.php` to the file path where your `turnOn.py` and `turnOff.py` scripts are located. These are the lines that read the following: 
 ````
 $command = escapeshellcmd('/home/pi/NickIoT/SmartNest/turnOn.py');
@@ -104,10 +104,10 @@ mv PhpSimpleChart2.php /var/www/html
 mv index.php /var/www/html
 ````
 * Navigate to the IP address of your Raspberry Pi to see the PHP wepbage. Note: The `PhpSimpleChart2.php` needs to be in this folder because the web app makes a call to it to create the graph.
-#### 6. Port forward for Google Assistant Voice Commands
+#### 8. Port forward for Google Assistant Voice Commands
 * Port forwarding on every router is different. See this link to learn more about how and why to port forward [HowToGeek](https://www.howtogeek.com/66214/how-to-forward-ports-on-your-router/)
 * The port that needs to forwarded is 8088 to the IP address of your Raspberry Pi in your home network.
-#### 7. Python Server
+#### 9. Python Server
 * In the "send_mail_on" and "send_mail_off" methods of `server.py` change the `gmail_user` and `gmail_password` as in step 4
 * Run the servery simply running 
 ````
