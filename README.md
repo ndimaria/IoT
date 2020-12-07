@@ -15,7 +15,7 @@ In addition, I plan on creating a web application that will be able to display t
 Setup the breadboard as in the following image:
 ![Image of Breadboard setup](https://user-images.githubusercontent.com/49735811/100019751-99a0a900-2dac-11eb-9732-3744e1ec662b.jpg)
 ### Software Requirements 
-For my week-by-week setup see [GoogleSites](https://sites.google.com/stevens.edu/ee629/projects/diy-nest-smart-thermostat)  
+For my week-by-week setup see [GoogleSites](https://sites.google.com/stevens.edu/ee629/projects/diy-nest-smart-thermostat).
   
 For more general instructions see below:
 #### 1. Install MariaDB 
@@ -62,26 +62,26 @@ sudo chmod +x readTempSQL.py
 ./readTempSQL.py
 ````
 #### 6. Create IFTTT applets
-* Navigate to [IFTTT](https://ifttt.com/) and create an account if you do not have one already
-* Create a new applet
+* Navigate to [IFTTT](https://ifttt.com/) and create an account if you do not have one already.
+* Create a new applet.
   1. Make the "if" trigger "send IFTTT email tagged" 
   2. Set the trigger to "#off" 
   3. Make the "then" trigger to turn off the smart plug 
-* Create a second applet 
+* Create a second applet.
   1. Make the "if" trigger "send IFTTT email tagged" 
   2. Set the trigger to "#on" 
   3. Make the "then" trigger to turn on the smart plug 
-* Create a third applet
-  1. Make the "if" trigger "Say a phrase with a number" for Google Assistant
-  2. Enter the text that you want to be able to say to the Google Assistant as well as what you want it to reply. For example: "Set thermostat tempertaure to #" and the Google Assistant was set to reply "Setting thermostat temperature to #" 
-  3. Set the the "then" trigger to "Make a web request"
-  4. Type the URL as the following: http://(YOUR_PUBLIC_IP_ADDRESS):8088/?temp={{NumberField}}&status=TRANSITIONING
-  * Your public IP address can be found at [WhatIsMyIp](https://www.whatismyip.com/)
-  5. Set the "Method" to "Get"
+* Create a third applet.
+  1. Make the "if" trigger "Say a phrase with a number" for Google Assistant.
+  2. Enter the text that you want to be able to say to the Google Assistant as well as what you want it to reply. For example: "Set thermostat tempertaure to #" and the Google Assistant was set to reply "Setting thermostat temperature to #."
+  3. Set the the "then" trigger to "Make a web request."
+  4. Type the URL as the following: http://(YOUR_PUBLIC_IP_ADDRESS):8088/?temp={{NumberField}}&status=TRANSITIONING.
+  * Your public IP address can be found at [WhatIsMyIp](https://www.whatismyip.com/).
+  5. Set the "Method" to "Get".
 #### 4. Setup On and Off Scipts
-  * Open `turnOn.py` and `turnOff.py` 
-  * Change "gmail_user" and "gmail_password" to your own
-  * Generate the app password by using the following steps (credits to: [GitHub]https://github.com/kevinwlu/iot/tree/master/lesson1)
+  * Open `turnOn.py` and `turnOff.py`. 
+  * Change "gmail_user" and "gmail_password" to your own.
+  * Generate the app password by using the following steps (credits to: [GitHub]https://github.com/kevinwlu/iot/tree/master/lesson1):
     1. My Account > Sign-in & security > Signing in to Google >
     2. 2-Step Verification > TURN ON > Select a second verification step > Authenticator app (Default)
     3. App passwords > Select the app (Mail) and device (Raspberry Pi) > GENERATE
@@ -105,13 +105,13 @@ mv index.php /var/www/html
 ````
 * Navigate to the IP address of your Raspberry Pi to see the PHP wepbage. Note: The `PhpSimpleChart2.php` needs to be in this folder because the web app makes a call to it to create the graph.
 #### 8. Port forward for Google Assistant Voice Commands
-* Port forwarding on every router is different. See this link to learn more about how and why to port forward [HowToGeek](https://www.howtogeek.com/66214/how-to-forward-ports-on-your-router/)
+* Port forwarding on every router is different. See this link to learn more about how and why to port forward [HowToGeek](https://www.howtogeek.com/66214/how-to-forward-ports-on-your-router/).
 * The port that needs to forwarded is 8088 to the IP address of your Raspberry Pi in your home network.
 #### 9. Python Server
-* In the "send_mail_on" and "send_mail_off" methods of `server.py` change the `gmail_user` and `gmail_password` as in step 4
-* Run the servery simply running 
+* In the "send_mail_on" and "send_mail_off" methods of `server.py` change the `gmail_user` and `gmail_password` as in step 4.
+* Run the server by simply running the following:
 ````
 python server.py
 ````
 * Now the voice commands with Google Assistant can be tested as well as setting a thermostat temperature within the PHP web application. 
-* This server makes it so that the PHP page does not have to be open at all times to have the thermostat work
+* This server makes it so that the PHP page does not have to be open at all times to have the thermostat work.
